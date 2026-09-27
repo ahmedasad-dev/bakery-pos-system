@@ -1,0 +1,43 @@
+[build-system]
+requires = ["setuptools>=75"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "bakery-pos-backend"
+version = "0.1.0"
+description = "Bakery POS platform API"
+requires-python = ">=3.12"
+dependencies = [
+  "Django>=5.2,<5.3",
+  "djangorestframework>=3.16,<3.17",
+  "djangorestframework-simplejwt>=5.5,<5.6",
+  "django-cors-headers>=4.7,<5",
+  "psycopg[binary]>=3.2,<3.3",
+  "gunicorn>=23,<24",
+]
+
+[project.optional-dependencies]
+dev = [
+  "pytest>=8.3,<9",
+  "pytest-django>=4.10,<5",
+  "ruff>=0.11,<1",
+]
+
+[tool.setuptools.packages.find]
+include = ["config*", "apps*"]
+
+[tool.pytest.ini_options]
+DJANGO_SETTINGS_MODULE = "config.settings.test"
+python_files = ["test_*.py", "*_tests.py"]
+addopts = "-q --disable-warnings --strict-markers"
+testpaths = ["apps"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+exclude = ["**/migrations/**", "pytest-cache-files-*"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "DJ"]
+ignore = ["DJ001"]
+
